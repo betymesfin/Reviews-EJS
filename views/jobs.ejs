@@ -1,0 +1,49 @@
+<%- include("partials/header") %>
+
+    <h2>My Job Listings</h2>
+    <a href="/jobs/new"><button type="button">Add New Job</button></a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Company</th>
+                <th>Position</th>
+                <th>Status</th>
+                <th colspan="2">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (jobs && jobs.length> 0) { %>
+                <% jobs.forEach((job)=> { %>
+                    <tr>
+                        <td>
+                            <%= job.company %>
+                        </td>
+                        <td>
+                            <%= job.position %>
+                        </td>
+                        <td>
+                            <%= job.status %>
+                        </td>
+                        <td>
+                            <a href="/jobs/edit/<%= job._id %>">
+                                <button type="button">Edit</button>
+                            </a>
+                        </td>
+                        <td>
+                            <form method="POST" action="/jobs/delete/<%= job._id %>" style="display:inline">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <% }) %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="5">No jobs found.</td>
+                            </tr>
+                            <% } %>
+        </tbody>
+    </table>
+
+    <%- include("partials/footer") %>
